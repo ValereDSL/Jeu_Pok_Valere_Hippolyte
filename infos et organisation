@@ -1,1 +1,70 @@
 ici toutes les infos pratiques sur les pokemons et les objets etc...
+
+definition de certains termes precis :
+IV — Individual Value :
+Les IV sont des valeurs cachées qui donnent à chaque Pokémon des caractéristiques légèrement différentes.
+par exemple les pv de base sont de 80 et l'IV (aleatoire entre 0 et 31) s'ajoute au pv 80 + IV
+Vitesse :
+La Vitesse détermine généralement quel Pokémon agit en premier. 
+Il y a cependant les priorités d'attaques qui peuvent modifier cet ordre.
+
+Catégorie d'une attaque
+
+Une attaque peut être :
+Physique
+→ utilise Attaque / Défense.
+Spéciale
+→ utilise Attaque Spéciale / Défense Spéciale.
+Statut
+→ ne fait généralement pas de dégâts directs et produit un effet.
+
+PP — Power Points :
+Les PP correspondent au nombre de fois qu'une attaque peut être utilisée avant de devoir être restaurée.
+Priorité :
+La priorité détermine l'ordre d'utilisation des attaques.
+Une attaque normale possède généralement :
+priorité = 0
+Une attaque à priorité supérieure peut passer avant une attaque normale, même si le Pokémon est plus lent.
+
+
+Fiche type :
+
+Identité :
+Nom	
+Type 1
+Type 2	
+evolution
+
+Statistiques de base :
+PV	
+Attaque	
+Défense	
+Attaque Spéciale
+Défense Spéciale	
+Vitesse	
+Talent
+Total	
+
+Attaques :
+Attaque	  Type	  Catégorie	  Puissance	  Précision	  PP  effet
+
+fiche pour Ho-Ho :
+Ho-Oh
+feu 
+vol
+
+stat :
+106
+130
+90
+110
+154
+90
+Pression
+Talent simplifié	Les attaques adverses font perdre 1 PV supplémentaire
+680
+
+Rapace	    Vol	    Physique	120	 100 %	15  Ho-ho recoit 1/3 des degats subit par l'adversaire 
+Feu Sacré	Feu	    Physique	100	 95 %	5   50 % de chances de brûler l'adversaire.
+Séisme	    Sol	    Physique	100	 100 %	10
+Soin	    Normal	Statut	    —	 —	    5   Restaure 50 % des PV maximums de Ho-Oh.
