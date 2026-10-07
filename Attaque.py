@@ -11,12 +11,10 @@ dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante"
             
 
 class Attaque:
-    def __init__(self, nom, type, categorie, puissance, precision, pp, effet):
+    def __init__(self, nom, type, puissance, precision, pp, effet):
         self.nom = nom
         self.type = type
-        self.categorie = categorie
         self.__puissance_base = puissance 
-        self.nvpuissance = -
         self.precision = precision
         self.pp = pp
         self.pp_max = pp
@@ -24,6 +22,12 @@ class Attaque:
         self.priorité = 0
 
 
+    def __get__puissance(self):
+        return self.__puissance_base 
+
+    def __set__puissance(self, valeur):
+        self.__puissance_base = valeur
+    
     def calculer_efficacite(attaque, defenseur):
         multiplicateur = 1
 
@@ -33,8 +37,24 @@ class Attaque:
         return multiplicateur
 
 
+class Physique(Attaque):
+    def __init__(self, nom, type, puissance, precision, pp, effet):
+        super().__init__(nom, type, puissance, precision, pp, effet)
+        self.categorie = "physique"
+
+
+class Speciale(Attaque):
+    def __init__(self, nom, type, puissance, precision, pp, effet):
+        super().__init__(nom, type, puissance, precision, pp, effet)
+        self.categorie = "Spéciale"
+
+class Statut(Attaque):
+    def __init__(self, nom, type, puissance, precision, pp, effet):
+        super().__init__(nom, type, 0, precision, pp, effet) # on met la puissance a 0 directement car les attaques de statut ne font pas de degats 
+        self.categorie = "Statut"
+
 #exemple sur lmes attaques de ho-ho :
-rapace = Attaque("Rapace", "Vol", "Physique", 120, 100, 15, 0, "recul")
-feu_sacre = Attaque("Feu Sacré", "Feu", "Physique", 100, 95, 5, 0, "brulure") # <= implique la creation d'un dossier effets pour les attaques qui ont des effets speciaux
-seisme = Attaque("Séisme", "Sol", "Physique", 100, 100, 10, 0, None)
-soin = Attaque("Soin", "Normal", "Statut", 0, 100, 5, 0, "soin")
+rapace = Attaque("Rapace", "Vol", 120, 100, 15, "recul")
+feu_sacre = Speciale("Feu Sacré", "Feu", 100, 95, 5, "brulure") # <= implique la creation d'un dossier effets pour les attaques qui ont des effets speciaux
+seisme = Attaque("Séisme", "Sol", 100, 100, 10, None)
+soin = Statut("Soin", "Normal", 0, 100, 5, "soin")
