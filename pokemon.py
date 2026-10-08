@@ -1,6 +1,6 @@
-from ProjetPokemon.Exception import PVInvalideError
+from ProjetPokemon.Exception import PVInvalideError, PokemonKOError
 class Pokemon:
-    """Un Pokémon : nom, types, statistiques, attaques et PV (encapsulés)."""
+    """Un Pokémon : nom, types, statistiques, attaques, vitesse, talent et PV."""
  
     def __init__(self, nom, types, pv_max, attaque, defense, attaque_spe, defense_spe, vitesse, talent, attaques=None):
         self.nom = nom
@@ -33,5 +33,24 @@ class Pokemon:
 
     @property
     def is_ko(self):
-        """Vérifie si le Pokémon est K.O. (PV <= 0)."""
+        """Vérifie si le Pokémon est K.O."""
         return self._pv <= 0
+
+    def check_if_alive(self):
+        """Vérifie si le Pokémon est K.O."""
+        if self.is_ko:
+            raise PokemonKOError(f"{self.nom} est K.O. et ne peut pas agir.")
+
+    def damage(self, damage_amount):
+        """Inflige des dégâts au Pokémon."""
+        self.check_if_alive()
+        if damage_amount < 0:
+            raise ValueError("Les dégâts doivent être un nombre positif.")
+        self.pv = self._pv - damage_amount
+
+    def heal(self, heal_amount):
+        """Soigne le Pokémon."""
+        self.check_if_alive()
+        if heal_amount < 0:
+            raise ValueError("Le soin doit être un nombre positif.")
+        self.pv = min(self._pv + heal_amount, self._pv_max)
