@@ -118,3 +118,158 @@ Hydrocanon	    Eau	    Spéciale	110	    80 %	5   -
 Pistolet à O	Eau	    Spéciale	40	    100 %	25  -
 Coup d'Boule	Normal	Physique	70	    100 %	15  30 % de chances d'empêcher l'adversaire d'attaquer pendant ce tour.
 Aqua-breche	    eau	    Physique	85      100 %   10  20 % de chances de diminuer la Défense de l'adversaire d'un niveau.
+____________________________________________
+fiche pour Canarticho :
+Canarticho
+Normal
+Vol
+stat :
+52
+90
+55
+58
+62
+60
+Attention
+Talent simplifié	Empêche la précision de Canarticho de baisser
+377
+
+
+attaques :
+Picpic	    Vol	    Physique	35	100 %	35	-
+Coupe	    Normal	Physique	50	95 %	30	-
+Danse-Lames	Normal	Statut	    —	—	    20	Augmente l'Attaque de Canarticho de 2 niveaux
+Coup d'Boue	Sol	    Physique	20	100 %	10	-
+___________________________________________
+fiche pour Regigigas :
+Regigigas
+Normal
+stat :
+110
+160
+110
+80
+110
+100
+Début Calme
+Talent simplifié	Attaque et Vitesse réduites de moitié pendant les 5 premiers tours en combat
+670
+
+
+attaques :
+Écrasement	Normal	Physique	65	   100 %	20	30 % de chances d'apeurer l'adversaire
+Séisme	    Sol	    Physique	100	   100 %	10	-
+Explosion   Normal  Physique    250    100 %    5   Regigigas est mis K.O., mais dégâts énormes
+Repos	    Normal	Statut	    —	   —	    10	Restaure 50 % des PV maximums de Regigigas
+
+___________________________________________
+fiche pour Torterra :
+Torterra
+Plante
+Sol
+stat :
+95
+109
+105
+75
+85
+56
+Engrais
+Talent simplifié	Les attaques Plante de Torterra sont 50 % plus puissantes quand il a moins d'un tiers de ses PV
+525
+
+
+attaques :
+Végé-Attaque	Plante	Physique	100	95 %	10	30 % de chances de paralyser l'adversaire
+Séisme	Sol	Physique	100	100 %	10	-
+Synthèse	Plante	Statut	—	—	5	Restaure 50 % des PV maximums de Torterra
+Morsure	Normal	Physique	60	100 %	25	30 % de chances d'apeurer l'adversaire
+
+___________________________________________
+fiche pour Léviator :
+Léviator
+Eau
+Vol
+stat :
+95
+125
+79
+60
+100
+81
+Intimidation
+Talent simplifié	Baisse l'Attaque de l'adversaire quand Léviator entre en combat
+540
+
+
+attaques :
+Hydrocanon	Eau	    Spéciale	110	80 %	5	-
+Cascade	    Eau	    Physique	80	100 %	15	20 % de chances d'apeurer l'adversaire
+Séisme	    Sol	    Physique	100	100 %	10	-
+Repos	    Normal	Statut	    —	—	    10	Restaure 50 % des PV maximums de Léviator
+
+___________________________________________
+fiche pour Roucarnage :
+Roucarnage
+Normal
+Vol
+stat :
+83
+80
+75
+70
+70
+101
+Regard Vif
+Talent simplifié	Empêche la précision de Roucarnage de baisser
+479
+
+
+attaques :
+Rapace	        Vol	    Physique	120	100 %	15	Roucarnage reçoit 1/3 des dégâts subis par l'adversaire
+Cru-Ailes	    Vol	    Physique	60	100 %	35	-
+Vive-Attaque	Normal	Physique	40	100 %	30	Attaque toujours prioritaire
+Soin	        Normal	Statut	    —	—	    5	Restaure 50 % des PV maximums de Roucarnage
+
+___________________________________________
+fiche pour Wattouat :
+Wattouat
+Électrik
+stat :
+55
+40
+40
+65
+45
+35
+Statik
+Talent simplifié	30 % de chances de paralyser l'adversaire qui touche Wattouat avec une attaque physique
+280
+attaques :
+Éclair	        Électrik	Spéciale	40	100 %	30	-
+Fatal-Foudre	Électrik	Spéciale	110	70 %	5	30 % de chances de paralyser l'adversaire
+Cage-Éclair	    Électrik	Statut	    —	90 %	20	Paralyse l'adversaire
+Boul'Gomme	    Normal	    Physique	40	100 %	40	-
+
+___________________________________________
+fiche pour Écrémeuh :
+Écrémeuh
+Normal
+stat :
+95
+80
+105
+40
+70
+100
+Épais Gras
+Talent simplifié	Réduit de moitié les dégâts des attaques de type Feu reçues
+490
+
+
+attaques :
+Plaquage	    Normal	Physique	85	  100 %	    15	30 % de chances de paralyser l'adversaire
+Écrasement	    Normal	Physique	65	  100 %	    20	30 % de chances d'apeurer l'adversaire
+Lait à Boire	Normal	Statut	    —	  —	        5	Restaure 50 % des PV maximums d'Écrémeuh
+Vive-Attaque	Normal	Physique	40	  100 %	    30	Attaque toujours prioritaire
+
