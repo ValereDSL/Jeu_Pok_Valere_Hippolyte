@@ -1,4 +1,3 @@
-From Maths import *
 
 dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrique" : 1, "Vol" : 1, "Sol" : 1},
                    "Feu" :        {"Normal" : 1, "Feu" : 0.5, "Eau" : 0.5, "Plante" : 2, "Electrique" : 1, "Vol" : 1, "Sol" : 1},
@@ -50,7 +49,7 @@ class Speciale(Attaque):
 
 class Statut(Attaque):
     def __init__(self, nom, type, puissance, precision, pp, effet):
-        super().__init__(nom, type, 0, precision, pp, effet) # on met la puissance a 0 directement car les attaques de statut ne font pas de degats 
+        super().__init__(nom, type, puissance, precision, pp, effet) # on met la puissance a 0 directement car les attaques de statut ne font pas de degats 
         self.categorie = "Statut"
 
 #exemple sur lmes attaques de ho-ho :
