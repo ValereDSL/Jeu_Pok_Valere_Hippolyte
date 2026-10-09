@@ -11,8 +11,8 @@ class Trainer:
             raise ValueError("Un dresseur ne peut pas avoir plus de 3 Pokémon.")
         self.nom = nom
         self._equipe = list
-        self.sac = sac if sac is not None else []
-        self._pokemon_actif = self._equipe[0]  #On prend le premier pokemon de l'equipe comme pokemon actif par défaut
+        self._sac = sac if sac is not None else []
+        self._pokemon_actif = 0  #On prend le premier pokemon de l'equipe comme pokemon actif par défaut
 
     def __str__(self):
         return f"Vous avez créé le Dresseur {self.nom} avec {len(self.equipe)} Pokémon(s) et {len(self.sac)} objet(s)."
@@ -22,8 +22,8 @@ class Trainer:
         return tuple(self._equipe) #comme ça on ne peut pas le modifier
 
     @property
-    def pokemoon_actif(self):
-        return self._pokemon_actif
+    def pokemon_actif(self):
+        return self._equipe[self._pokemon_actif]
 
     @property
     def perdu(self):
@@ -31,10 +31,26 @@ class Trainer:
 
     def attaquer(self, attaque, cible):
         if self._pokemon_actif.est_ko:
-            raise ValueError(f"{self._pokemon_actif.nom} est K.O. et ne peut pas attaquer.")
+            raise ValueError(f"{self._pokemon_actif.nom} est K.O. ! Il ne peut pas attaquer.")
         if attaque.pp <= 0:
             raise ValueError(f"{attaque.nom} n'a plus de PP et ne peut pas être utilisé.")
         attaque.pp -= 1
         multiplicateur = Attaque.calculer_efficacite(attaque, cible)
         degats = attaque.get_puissance() * multiplicateur
-        Pokemon.cible.degats(degats)                  
+        Pokemon.cible.degats(degats)    
+
+    def changer_de_pokemon(self, index):
+        if not 0 <= index < len(self._equipe):
+            raise IndexError("Index de Pokémon invalide.")
+        nouveau_pokemon_actif = self._equipe[index]
+        if nouveau_pokemon_actif.est_ko:
+            raise PokemonKOError(f"{nouveau_pokemon_actif.nom} est K.O. et ne peut pas être choisi comme Pokémon actif.")
+        self._pokemon_actif = index
+        print(f"{self.nom} envoie {nouveau_pokemon_actif.nom}.")
+
+    def pokemon_encore_en_vie(self):
+        return [i for i in self._equipe if not i.est_ko]
+
+    def ajouter_objet(self, objet):
+        self.sac.append(objet)
+    

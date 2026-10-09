@@ -43,14 +43,14 @@ class Pokemon:
 
     def degats(self, damage_amount):
         """Inflige des dégâts au Pokémon."""
-        self.check_if_alive()
+        self.en_vie()
         if damage_amount < 0:
             raise ValueError("Les dégâts doivent être un nombre positif.")
         self.pv = self._pv - damage_amount
 
     def soigner(self, heal_amount):
         """Soigne le Pokémon."""
-        self.check_if_alive()
+        self.en_vie()
         if heal_amount < 0:
             raise ValueError("Le soin doit être un nombre positif.")
         self.pv = min(self._pv + heal_amount, self._pv_max)
