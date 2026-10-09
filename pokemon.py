@@ -1,19 +1,26 @@
+from email.mime import base
+
 from Exception import PVInvalideError, PokemonKOError
+from math import random
+
 class Pokemon:
     """Un Pokémon : nom, types, statistiques, attaques, vitesse, talent et PV."""
  
-    def __init__(self, nom, types, pv_max, attaque, defense, attaque_spe, defense_spe, vitesse, talent, attaques=None):
+    def __init__(self, nom, lvl, types, pv_max, attaque, defense, attaque_spe, defense_spe, vitesse, talent, attaques=None):
         self.nom = nom
+        self.lvl = lvl
         self.types = list(types)        
-        self._pv_max = pv_max           
+        self.iv = random.randint(0, 31)         
         self._pv = pv_max               
         self.talent = talent
 
-        self.attaque = attaque
-        self.defense = defense
-        self.attaque_spe = attaque_spe
-        self.defense_spe = defense_spe
-        self.vitesse = vitesse
+        self._pv_max = (((2 * pv_max + self.iv * lvl) / 100) * pv_max) + lvl + 10  
+        self.attaque = (((2 * attaque + self.iv) * self.lvl) // 100) + 5
+        self.defense = (((2 * defense + self.iv) * self.lvl) // 100) + 5
+        self.attaque_spe =  (((2 * attaque_spe + self.iv) * self.lvl) // 100) + 5
+        self.defense_spe =  (((2 * defense_spe + self.iv) * self.lvl) // 100) + 5
+        self.vitesse =  (((2 * vitesse + self.iv) * self.lvl) // 100) + 5
+
 
     @property
     def pv(self):
