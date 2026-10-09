@@ -151,8 +151,7 @@ stat :
 80
 110
 100
-Début Calme
-Talent simplifié	Attaque et Vitesse réduites de moitié pendant les 5 premiers tours en combat
+None
 670
 
 
@@ -273,3 +272,16 @@ Plaquage	    Normal	Physique	85	  100 %	    15	30 % de chances de paralyser l'ad
 Lait à Boire	Normal	Statut	    —	  —	        5	Restaure 50 % des PV maximums d'Écrémeuh
 Vive-Attaque	Normal	Physique	40	  100 %	    30	Attaque toujours prioritaire
 
+torterra = Pokemon("Torterra", ["Plante", "Sol"],95, 109, 105, 75, 85, 56, Engrais())
+
+leviator = Pokemon("Léviator", ["Eau", "Vol"], 95, 125, 79, 60, 100, 81, Intimidation())
+
+roucarnage = Pokemon("Roucarnage", ["Normal", "Vol"], 83, 80, 75, 70, 70, 101, RegardVif())
+
+wattouat = Pokemon("Wattouat", ["Électrik"], 55, 40, 40, 65, 45, 35, Statik())
+
+ecremeuh = Pokemon("Écrémeuh", ["Normal"], 95, 80, 105, 40, 70, 100, ÉpaisGras())
+
+Regigigas = Pokemon(Regigigas, ["Normal"], 110, 160, 110, 80, 110, 100, None)
+
+Canarticho = (Canarticho, ["Normal", "Vol"], 52, 90, 55, 58, 62, 60, Attention())
