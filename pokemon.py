@@ -32,23 +32,23 @@ class Pokemon:
         return self._pv_max
 
     @property
-    def is_ko(self):
+    def est_ko(self):
         """Vérifie si le Pokémon est K.O."""
         return self._pv <= 0
 
     def check_if_alive(self):
         """Vérifie si le Pokémon est K.O."""
-        if self.is_ko:
+        if self.est_ko:
             raise PokemonKOError(f"{self.nom} est K.O. et ne peut pas agir.")
 
-    def damage(self, damage_amount):
+    def degats(self, damage_amount):
         """Inflige des dégâts au Pokémon."""
         self.check_if_alive()
         if damage_amount < 0:
             raise ValueError("Les dégâts doivent être un nombre positif.")
         self.pv = self._pv - damage_amount
 
-    def heal(self, heal_amount):
+    def soigner(self, heal_amount):
         """Soigne le Pokémon."""
         self.check_if_alive()
         if heal_amount < 0:
