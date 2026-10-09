@@ -1,7 +1,7 @@
 class Trainer:
     """Un Dresseur : nom, liste de Pokémon et objets."""
     
-    def __init__(self, nom, pokemons=None, objets=None):
+    def __init__(self, nom, pokemons=None, objets=None): # peut-etre est-ce que le joueuer peut renomer son dresseur ? - Hippo
         self.nom = nom
         self.pokemons = pokemons if pokemons is not None else []
         self.objets = objets if objets is not None else []
