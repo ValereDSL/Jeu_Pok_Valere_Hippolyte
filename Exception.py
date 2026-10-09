@@ -1,4 +1,5 @@
-from Pokemon import Pokemon
+from Pokemon import *
+from Objet import *
 
 class PokemonKOError(Exception):
     """Levée si on tente de faire agir ou attaquer un Pokémon déjà K.O."""

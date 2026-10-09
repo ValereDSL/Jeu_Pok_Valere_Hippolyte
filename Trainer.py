@@ -1,7 +1,7 @@
-from ProjetPokemon.Exception import ObjetIndisponibleError
-from ProjetPokemon.pokemon import *
-from ProjetPokemon.Effets import *
-from ProjetPokemon.Attaque import *
+from Exception import *
+from Pokemon import *
+from Effets import *
+from Attaque import *
 
 class Trainer:
     """Un Dresseur : nom, liste de Pokémon et objets."""   
@@ -12,7 +12,7 @@ class Trainer:
         self.nom = nom
         self._equipe = list
         self._sac = sac if sac is not None else []
-        self._pokemon_actif = 0  #On prend le premier pokemon de l'equipe comme pokemon actif par défaut
+        self._pokemon_actif = self._equipe[0]  #On prend le premier pokemon de l'equipe comme pokemon actif par défaut
 
     def __str__(self):
         return f"Vous avez créé le Dresseur {self.nom} avec {len(self._equipe)} Pokémon(s) et {len(self._sac)} objet(s)."
@@ -49,9 +49,9 @@ class Trainer:
             print(f"{cible.nom} est K.O. !")
         
     def changer_de_pokemon(self, index):
-        if not 0 <= index < len(self._equipe):
+        if not index in self._equipe :
             raise IndexError("Index de Pokémon invalide.")
-        nouveau_pokemon_actif = self._equipe[index]
+        nouveau_pokemon_actif = index
         if nouveau_pokemon_actif.est_ko:
             raise PokemonKOError(f"{nouveau_pokemon_actif.nom} est K.O. et ne peut pas être choisi comme Pokémon actif.")
         self._pokemon_actif = index
