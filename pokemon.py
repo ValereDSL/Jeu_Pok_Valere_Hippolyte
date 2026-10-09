@@ -36,8 +36,8 @@ class Pokemon:
         """Vérifie si le Pokémon est K.O."""
         return self._pv <= 0
 
-    def check_if_alive(self):
-        """Vérifie si le Pokémon est K.O."""
+    def en_vie(self):
+        """Vérifie si le Pokémon est en vie."""
         if self.est_ko:
             raise PokemonKOError(f"{self.nom} est K.O. et ne peut pas agir.")
 
