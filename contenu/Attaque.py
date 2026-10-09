@@ -21,10 +21,10 @@ class Attaque:
         self.priorité = 0
 
 
-    def __get__puissance(self):
+    def get_puissance(self):
         return self.__puissance_base 
 
-    def __set__puissance(self, valeur):
+    def set_puissance(self, valeur):
         self.__puissance_base = valeur
     
     def calculer_efficacite(attaque, defenseur):
@@ -52,7 +52,7 @@ class Statut(Attaque):
         super().__init__(nom, type, puissance, precision, pp, effet) # on met la puissance a 0 directement car les attaques de statut ne font pas de degats 
         self.categorie = "Statut"
 
-#exemple sur lmes attaques de ho-ho :
+#exemple sur les attaques de ho-ho :
 rapace = Attaque("Rapace", "Vol", 120, 100, 15, "recul")
 feu_sacre = Speciale("Feu Sacré", "Feu", 100, 95, 5, "brulure") # <= implique la creation d'un dossier effets pour les attaques qui ont des effets speciaux
 seisme = Attaque("Séisme", "Sol", 100, 100, 10, None)
