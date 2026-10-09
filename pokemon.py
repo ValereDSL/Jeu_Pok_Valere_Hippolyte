@@ -1,4 +1,4 @@
-from JEU_POK_VALERE_HIPPOLYTE.Exception import PVInvalideError, PokemonKOError
+from Exception import PVInvalideError, PokemonKOError
 class Pokemon:
     """Un Pokémon : nom, types, statistiques, attaques, vitesse, talent et PV."""
  
