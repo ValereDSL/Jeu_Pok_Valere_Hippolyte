@@ -1,3 +1,5 @@
+from Pokemon import Pokemon
+
 class PokemonKOError(Exception):
     """Levée si on tente de faire agir ou attaquer un Pokémon déjà K.O."""
     if Pokemon._pv <= 0:
@@ -12,5 +14,5 @@ class ObjetIndisponibleError(Exception):
  
 class PVInvalideError(Exception):
     """Levée si tentative d'affectation incohérente des PV."""
-    if pv < 0 or pv > self._pv_max: 
+    if self._pv < 0 or self._pv > self._pv_max: 
         raise PVInvalideError("Les PV doivent être compris entre 0 et le maximum de PV du Pokémon.")
