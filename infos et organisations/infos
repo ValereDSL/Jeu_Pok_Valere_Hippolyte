@@ -1,0 +1,61 @@
+ici toutes les infos pratiques sur les pokemons et les objets etc...
+
+definition de certains termes precis :
+IV — Individual Value :
+Les IV sont des valeurs cachées qui donnent à chaque Pokémon des caractéristiques légèrement différentes.
+par exemple les pv de base sont de 80 et l'IV (aleatoire entre 0 et 31) s'ajoute au pv 80 + IV
+Vitesse :
+La Vitesse détermine généralement quel Pokémon agit en premier. 
+Il y a cependant les priorités d'attaques qui peuvent modifier cet ordre.
+
+Catégorie d'une attaque
+
+Une attaque peut être :
+Physique
+→ utilise Attaque / Défense.
+Spéciale
+→ utilise Attaque Spéciale / Défense Spéciale.
+Statut
+→ ne fait généralement pas de dégâts directs et produit un effet.
+
+PP — Power Points :
+Les PP correspondent au nombre de fois qu'une attaque peut être utilisée avant de devoir être restaurée.
+Priorité :
+La priorité détermine l'ordre d'utilisation des attaques.
+Une attaque normale possède généralement :
+priorité = 0
+Une attaque à priorité supérieure peut passer avant une attaque normale, même si le Pokémon est plus lent.
+
+listes de tous les pokemons (sous forme d'objet):
+
+Ho-Oh = Pokemon("Ho-oh", ["feu", "vol"], 106, 130, 90, 110, 154, 90, Pression())
+
+torterra = Pokemon("Torterra", ["Plante", "Sol"],95, 109, 105, 75, 85, 56, Engrais())
+
+leviator = Pokemon("Léviator", ["Eau", "Vol"], 95, 125, 79, 60, 100, 81, Intimidation())
+
+roucarnage = Pokemon("Roucarnage", ["Normal", "Vol"], 83, 80, 75, 70, 70, 101, RegardVif())
+
+wattouat = Pokemon("Wattouat", ["Électrik"], 55, 40, 40, 65, 45, 35, Statik())
+
+ecremeuh = Pokemon("Écrémeuh", ["Normal"], 95, 80, 105, 40, 70, 100, ÉpaisGras())
+
+Regigigas = Pokemon(Regigigas, ["Normal"], 110, 160, 110, 80, 110, 100, None)
+
+Canarticho = (Canarticho, ["Normal", "Vol"], 52, 90, 55, 58, 62, 60, Attention())
+
+raichu = Pokemon("Raichu",["Électrik"],60, 90, 55, 90, 80, 110, Statik())
+
+akwakwak = Pokemon("Akwakwak", ["Eau"],80, 82, 78, 95, 80, 78, Torrent() )
+
+jungko = Pokemon("Jungko", ["Plante"], 70, 85, 65, 105, 85, 120, Engrais())
+
+triopikeur = Pokemon("Triopikeur", ["Sol"], 35, 100, 50, 50, 70, 120, Agitation())
+
+staross = Pokemon("Staross", ["Eau"], 60, 75, 85, 100, 85, 115, Torrent())
+
+tortank = Pokemon("Tortank", ["Eau"], 79, 83, 100, 85, 105, 78, Torrent())
+
+Grolem = Pokemon("Grolem", ["Sol"], 80, 120, 130, 55, 65, 45, Robustesse())
+
+Total 15 pokemons : torterra, leviator, roucarnage, wattouat, ecremeuh, Regigigas, Canarticho, raichu, akwakwak, jungko, triopikeur, staross, tortank, Grolem

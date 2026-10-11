@@ -1,31 +1,4 @@
-ici toutes les infos pratiques sur les pokemons et les objets etc...
-
-definition de certains termes precis :
-IV — Individual Value :
-Les IV sont des valeurs cachées qui donnent à chaque Pokémon des caractéristiques légèrement différentes.
-par exemple les pv de base sont de 80 et l'IV (aleatoire entre 0 et 31) s'ajoute au pv 80 + IV
-Vitesse :
-La Vitesse détermine généralement quel Pokémon agit en premier. 
-Il y a cependant les priorités d'attaques qui peuvent modifier cet ordre.
-
-Catégorie d'une attaque
-
-Une attaque peut être :
-Physique
-→ utilise Attaque / Défense.
-Spéciale
-→ utilise Attaque Spéciale / Défense Spéciale.
-Statut
-→ ne fait généralement pas de dégâts directs et produit un effet.
-
-PP — Power Points :
-Les PP correspondent au nombre de fois qu'une attaque peut être utilisée avant de devoir être restaurée.
-Priorité :
-La priorité détermine l'ordre d'utilisation des attaques.
-Une attaque normale possède généralement :
-priorité = 0
-Une attaque à priorité supérieure peut passer avant une attaque normale, même si le Pokémon est plus lent.
-
+ici toutes les fichers des pokemons : 
 
 Fiche type :
 
@@ -271,45 +244,132 @@ Plaquage	    Normal	Physique	85	  100 %	    15	30 % de chances de paralyser l'ad
 Écrasement	    Normal	Physique	65	  100 %	    20	30 % de chances d'apeurer l'adversaire
 Lait à Boire	Normal	Statut	    —	  —	        5	Restaure 50 % des PV maximums d'Écrémeuh
 Vive-Attaque	Normal	Physique	40	  100 %	    30	Attaque toujours prioritaire
-
-Ho-Oh = Pokemon("Ho-oh", feu 
-vol
-
+___________________________________________
+Raichu
+Électrik
 stat :
-106
-130
+60
 90
+55
+90
+80
 110
-154
-90
-Pression())
+Statik
+Talent simplifié	30 % de chances de paralyser l'adversaire qui touche Raichu avec une attaque physique
+485
+attaques :
+Fatal-Foudre	Électrik	Spéciale	110	    70 %	5	30 % de chances de paralyser l'adversaire
+Cage-Éclair	    Électrik	Statut	    —	    90 %	20	Paralyse l'adversaire
+Vive-Attaque	Normal	    Physique	40	    100 %	30	Attaque toujours prioritaire
+Queue de Fer	Normal	    Physique	100	    75 %	15	30 % de chances de baisser la Défense de l'adversaire
 
-torterra = Pokemon("Torterra", ["Plante", "Sol"],95, 109, 105, 75, 85, 56, Engrais())
-
-leviator = Pokemon("Léviator", ["Eau", "Vol"], 95, 125, 79, 60, 100, 81, Intimidation())
-
-roucarnage = Pokemon("Roucarnage", ["Normal", "Vol"], 83, 80, 75, 70, 70, 101, RegardVif())
-
-wattouat = Pokemon("Wattouat", ["Électrik"], 55, 40, 40, 65, 45, 35, Statik())
-
-ecremeuh = Pokemon("Écrémeuh", ["Normal"], 95, 80, 105, 40, 70, 100, ÉpaisGras())
-
-Regigigas = Pokemon(Regigigas, ["Normal"], 110, 160, 110, 80, 110, 100, None)
-
-Canarticho = (Canarticho, ["Normal", "Vol"], 52, 90, 55, 58, 62, 60, Attention())
-
-raichu = Pokemon("Raichu",["Électrik"],60, 90, 55, 90, 80, 110, Statik())
-
-akwakwak = Pokemon("Akwakwak", ["Eau"],80, 82, 78, 95, 80, 78, Torrent() )
-
-jungko = Pokemon("Jungko", ["Plante"], 70, 85, 65, 105, 85, 120, Engrais())
-
-triopikeur = Pokemon("Triopikeur", ["Sol"], 35, 100, 50, 50, 70, 120, Agitation())
-
-staross = Pokemon("Staross", ["Eau"], 60, 75, 85, 100, 85, 115, Torrent())
-
-tortank = Pokemon("Tortank", ["Eau"], 79, 83, 100, 85, 105, 78, Torrent())
-
-Grolem = Pokemon("Grolem", ["Sol"], 80, 120, 130, 55, 65, 45, Robustesse())
-
-Total 15 pokemons : torterra, leviator, roucarnage, wattouat, ecremeuh, Regigigas, Canarticho, raichu, akwakwak, jungko, triopikeur, staross, tortank, Grolem
+___________________________________________
+fiche pour Akwakwak :
+Akwakwak
+Eau
+stat :
+80
+82
+78
+95
+80
+78
+Torrent
+Talent simplifié	Augmente la puissance des attaques Eau de 50 % quand les PV sont en dessous d'un tiers
+493
+attaques :
+Hydrocanon	Eau	Spéciale	110	80 %	5	-
+Surf	Eau	Spéciale	90	100 %	15	-
+Cru-Ailes	Vol	Physique	60	100 %	35	-
+Soin	Normal	Statut	—	—	5	Restaure 50 % des PV maximums d'Akwakwak
+fiche pour Jungko :
+Jungko
+Plante
+stat :
+70
+85
+65
+105
+85
+120
+Engrais
+Talent simplifié	Augmente la puissance des attaques Plante de 50 % quand les PV sont en dessous d'un tiers
+530
+attaques :
+Lance-Soleil	Plante	Spéciale	120	100 %	10	Attaque en 2 tours (chargement puis frappe)
+Eco-Sphère	Plante	Spéciale	90	100 %	10	10 % de chances de baisser la Défense Spéciale de l'adversaire
+Cru-Ailes	Vol	Physique	60	100 %	35	-
+Abri	Normal	Statut	—	—	10	Bloque toutes les attaques ce tour (échoue si utilisé plusieurs fois de suite)
+fiche pour Triopikeur :
+Triopikeur
+Sol
+stat :
+35
+100
+50
+50
+70
+120
+Agitation
+Talent simplifié	Augmente les chances de coup critique
+425
+attaques :
+Séisme	Sol	Physique	100	100 %	10	-
+Tunnel	Sol	Physique	80	100 %	10	Attaque en 2 tours (sous terre, invulnérable, puis frappe)
+Coup d'Boule	Normal	Physique	70	100 %	15	30 % de chances d'apeurer l'adversaire
+Vive-Attaque	Normal	Physique	40	100 %	30	Attaque toujours prioritaire
+fiche pour Staross :
+Staross
+Eau
+stat :
+60
+75
+85
+100
+85
+115
+Torrent
+Talent simplifié	Augmente la puissance des attaques Eau de 50 % quand les PV sont en dessous d'un tiers
+520
+attaques :
+Surf	Eau	Spéciale	90	100 %	15	-
+Psyko → Eau*	Spéciale	90	100 %	10	10 % de chances de baisser la Défense Spéciale de l'adversaire
+Rapide-Eclair → Électrik*	Spéciale	55	100 %	30	-
+Soin	Normal	Statut	—	—	5	Restaure 50 % des PV maximums de Staross
+*Psyko est de type Psy dans les jeux officiels — je te propose de le passer en Eau ou de le remplacer par Hydrocanon. Rapide-Éclair garde son type Électrik, sympa pour un starfish étoilé... pardon, une étoile de mer.
+fiche pour Tortank :
+Tortank
+Eau
+stat :
+79
+83
+100
+85
+105
+78
+Torrent
+Talent simplifié	Augmente la puissance des attaques Eau de 50 % quand les PV sont en dessous d'un tiers
+530
+attaques :
+Hydrocanon	Eau	Spéciale	110	80 %	5	-
+Surf	Eau	Spéciale	90	100 %	15	-
+Séisme	Sol	Physique	100	100 %	10	-
+Repos	Normal	Statut	—	—	10	Restaure 50 % des PV maximums de Tortank
+fiche pour Grolem :
+Grolem
+Sol
+stat :
+80
+120
+130
+55
+65
+45
+Robustesse
+Talent simplifié	Empêche d'être mis K.O. en un seul coup si les PV sont au maximum
+495
+attaques :
+Séisme	Sol	Physique	100	100 %	10	-
+Éboulement	Sol	Physique	75	90 %	10	30 % de chances d'apeurer l'adversaire
+Explosion	Normal	Physique	250	100 %	5	Grolem est mis K.O. après l'attaque
+Repos	Normal	Statut	—	—	10	Restaure 50 % des PV maximums de Grolem
