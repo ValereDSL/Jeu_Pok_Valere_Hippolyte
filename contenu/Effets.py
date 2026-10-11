@@ -119,3 +119,38 @@ class Attention(Talent):  # Talent de Canarticho
 
     def appliquer(self, possesseur):
         pass
+
+class Torrent(Talent):  # Talent de Staross, Akwakwak et Tortank
+    def __init__(self):
+        super().__init__(
+            "Torrent",
+            "Augmente la puissance des attaques de type Eau de 50% quand les PV sont en dessous d'un tiers"
+        )
+
+    def appliquer(self, attaquant, attaque):
+        if attaque.type == "Eau" and attaquant.pv <= attaquant.pv_max / 3:
+            attaque.set_puissance(attaque.get_puissance() * 1.5)
+
+
+class Agitation(Talent):  # Talent de Triopikeur
+    def __init__(self):
+        super().__init__(
+            "Agitation",
+            "Augmente les chances de coup critique"
+        )
+
+    def get_bonus_critique(self):
+        return 1  # à additionner au taux de critique du moteur
+
+
+class Robustesse(Talent):  # Talent de Grolem
+    def __init__(self):
+        super().__init__(
+            "Robustesse",
+            "Empêche d'être mis K.O. en un seul coup si les PV sont au maximum"
+        )
+
+    def sur_degats_recus(self, possesseur, attaque, degats):
+        if possesseur.pv == possesseur.pv_max and degats >= possesseur.pv:
+            return possesseur.pv - 1  # survit avec 1 PV
+        return degats

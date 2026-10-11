@@ -53,7 +53,8 @@ class Statut(Attaque):
         self.categorie = "Statut"
 
 #exemple sur les attaques de ho-ho :
-rapace = Attaque("Rapace", "Vol", 120, 100, 15, "recul")
-feu_sacre = Speciale("Feu Sacré", "Feu", 100, 95, 5, "brulure") # <= implique la creation d'un dossier effets pour les attaques qui ont des effets speciaux
-seisme = Attaque("Séisme", "Sol", 100, 100, 10, None)
-soin = Statut("Soin", "Normal", 0, 100, 5, "soin")
+attaque_Ho-oh = {
+"rapace" : Attaque("Rapace", "Vol", 120, 100, 15, "recul"),
+"feu_sacre" : Speciale("Feu Sacré", "Feu", 100, 95, 5, "brulure"), # <= implique la creation d'un dossier effets pour les attaques qui ont des effets speciaux
+"seisme" : Attaque("Séisme", "Sol", 100, 100, 10, None),
+"soin" : Statut("Soin", "Normal", 0, 100, 5, "soin") }
