@@ -11,9 +11,11 @@ def main():
         choix = input("Votre choix : ").strip()
 
         if choix == "1":
-            pass
+            nouvelle_partie()
         elif choix == "2":
-            pass
+            print("\nCe jeu est un projet de terminal Pokémon développé par Hippolyte et Valère.")
+            print("Vous pouvez créer votre équipe de Pokémon, utiliser des objets et combattre d'autres Dresseurs.")
+            print("Amusez-vous bien !")
         elif choix == "0":
             print("À bientôt !")
             break

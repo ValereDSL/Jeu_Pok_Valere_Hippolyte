@@ -1,7 +1,13 @@
 from email.mime import base
-
 from Exception import PVInvalideError, PokemonKOError
 from math import random
+
+pokemons_disponibles = [
+    Pikachu(),
+    Ho_oh(),
+    Psykokwak(),
+    # Ajouter les autres Pokémon ici
+]
 
 class Pokemon:
     """Un Pokémon : nom, types, statistiques, attaques, vitesse, talent et PV."""
