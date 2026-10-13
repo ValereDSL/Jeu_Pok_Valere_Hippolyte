@@ -153,9 +153,9 @@ Talent simplifié	Les attaques Plante de Torterra sont 50 % plus puissantes quan
 
 attaques :
 Végé-Attaque	Plante	Physique	100	95 %	10	30 % de chances de paralyser l'adversaire
-Séisme	Sol	Physique	100	100 %	10	-
-Synthèse	Plante	Statut	—	—	5	Restaure 50 % des PV maximums de Torterra
-Morsure	Normal	Physique	60	100 %	25	30 % de chances d'apeurer l'adversaire
+Séisme	        Sol	    Physique	100	100 %	10	-
+Synthèse	    Plante	Statut	    —	—	    5	Restaure 50 % des PV maximums de Torterra
+Morsure	        Normal	Physique	60	100 %	25	30 % de chances d'apeurer l'adversaire
 
 ___________________________________________
 fiche pour Léviator :
