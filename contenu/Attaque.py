@@ -9,48 +9,71 @@ dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante"
                   }
             
 
+def multiplicateur(type_attaque, type_defenseur):
+    """Renvoie x2, x0.5, x0 ou x1 pour un type d'attaque contre UN type."""
+    return dict_efficacité[type_attaque].get(type_defenseur, 1)
+ 
+ 
 class Attaque:
-    def __init__(self, nom, type, puissance, precision, pp, effet):
+    categorie = None  # défini dans Physique / Speciale / Statut
+ 
+    def __init__(self, nom, type, puissance, precision, pp, effet=None, priorite=0):
+        if type not in TYPES:
+            raise ValueError(f"Type inconnu pour {nom} : '{type}'. Types valides : {sorted(TYPES)}")
         self.nom = nom
         self.type = type
-        self.__puissance_base = puissance 
+        self.__puissance_base = puissance
         self.precision = precision
         self.pp = pp
         self.pp_max = pp
         self.effet = effet
-        self.priorité = 0
-
-
+        self.priorite = priorite  # 0 = normal, 1 = Vive-Attaque, etc.
+ 
     def get_puissance(self):
-        return self.__puissance_base 
-
+        return self.__puissance_base
+ 
     def set_puissance(self, valeur):
         self.__puissance_base = valeur
-    
-    def calculer_efficacite(attaque, defenseur):
-        multiplicateur = 1
-
-        for type_defenseur in defenseur.types: # permet de gerer les doubles types , car l'efficacité s'accumule
-            multiplicateur *= dict_efficacité[attaque.type][type_defenseur]
-
-        return multiplicateur
-
-
+ 
+    def calculer_efficacite(self, defenseur):
+        """Gère les doubles types : les multiplicateurs se cumulent."""
+        resultat = 1
+        for type_defenseur in defenseur.types:
+            resultat *= multiplicateur(self.type, type_defenseur)
+        return resultat
+ 
+    def peut_etre_utilisee(self):
+        return self.pp > 0
+ 
+    def utiliser(self):
+        """Retire 1 PP. À appeler à chaque fois que l'attaque est lancée."""
+        if self.pp <= 0:
+            raise ValueError(f"{self.nom} n'a plus de PP !")
+        self.pp -= 1
+ 
+    def restaurer_pp(self):
+        self.pp = self.pp_max
+ 
+    def __str__(self):
+        puissance = self.get_puissance() or "—"
+        return (f"{self.nom:<15} {self.type:<9} {self.categorie:<9} "
+                f"Puiss. {puissance:<4} Préc. {self.precision}%  PP {self.pp}/{self.pp_max}")
+ 
+ 
 class Physique(Attaque):
-    def __init__(self, nom, type, puissance, precision, pp, effet):
-        super().__init__(nom, type, puissance, precision, pp, effet)
-        self.categorie = "physique"
-
-
+    categorie = "Physique"
+ 
+ 
 class Speciale(Attaque):
-    def __init__(self, nom, type, puissance, precision, pp, effet):
-        super().__init__(nom, type, puissance, precision, pp, effet)
-        self.categorie = "Spéciale"
-
+    categorie = "Spéciale"
+ 
+ 
 class Statut(Attaque):
-    def __init__(self, nom, type, puissance, precision, pp, effet):
-        super().__init__(nom, type, puissance, precision, pp, effet) # on met la puissance a 0 directement car les attaques de statut ne font pas de degats 
-        self.categorie = "Statut"
+    categorie = "Statut"
+ 
+    def __init__(self, nom, type, precision, pp, effet=None, priorite=0):
+        # Une attaque de statut ne fait pas de dégâts : puissance = 0 d'office
+        super().__init__(nom, type, 0, precision, pp, effet, priorite)
 
 #exemple sur les attaques de ho-ho :
 attaque_Ho-oh = {
