@@ -1,4 +1,4 @@
-from Exception import *
+from contenu.Erreur import *
 from Pokemon import *
 from Effets import *
 from Attaque import *

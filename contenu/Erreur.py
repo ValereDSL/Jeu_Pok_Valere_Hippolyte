@@ -1,9 +1,7 @@
-from Pokemon import *
-from Objet import *
 
 class PokemonKOError(Exception):
     """Levée si on tente de faire agir ou attaquer un Pokémon déjà K.O."""
-    if Pokemon._pv <= 0:
+    if self._pv <= 0:
         raise PokemonKOError("Le Pokémon est K.O. et ne peut pas agir.")
  
  
