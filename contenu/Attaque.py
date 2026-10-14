@@ -1,11 +1,13 @@
 
-dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1},
-                   "Feu" :        {"Normal" : 1, "Feu" : 0.5, "Eau" : 0.5, "Plante" : 2, "Electrik" : 1, "Vol" : 1, "Sol" : 1},
-                   "Eau" :        {"Normal" : 1, "Feu" : 2, "Eau" : 0.5, "Plante" : 0.5, "Electrik" : 1, "Vol" : 1, "Sol" : 2},
-                   "Plante" :     {"Normal" : 1, "Feu" : 0.5, "Eau" : 2, "Plante" : 0.5, "Electrik" : 1, "Vol" : 0.5, "Sol" : 2},
-                   "Electrik" : {"Normal" : 1, "Feu" : 1, "Eau" : 2, "Plante" : 0.5, "Electrik" : 0.5, "Vol" : 2, "Sol" : 0},
-                   "Vol" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 2, "Electrik" : 0.5, "Vol" : 1, "Sol" : 1},
-                   "Sol" :        {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 0.5, "Electrik" : 2, "Vol" : 0, "Sol" : 1},
+dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 0.5},
+                   "Feu" :        {"Normal" : 1, "Feu" : 0.5, "Eau" : 0.5, "Plante" : 2, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 0.5},
+                   "Eau" :        {"Normal" : 1, "Feu" : 2, "Eau" : 0.5, "Plante" : 0.5, "Electrik" : 1, "Vol" : 1, "Sol" : 2, "psy" : 1, "roche" : 1},
+                   "Plante" :     {"Normal" : 1, "Feu" : 0.5, "Eau" : 2, "Plante" : 0.5, "Electrik" : 1, "Vol" : 0.5, "Sol" : 2, "psy" : 1, "roche" : 1},
+                   "Electrik" : {"Normal" : 1, "Feu" : 1, "Eau" : 2, "Plante" : 0.5, "Electrik" : 0.5, "Vol" : 2, "Sol" : 0, "psy" : 1, "roche" : 1},
+                   "Vol" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 2, "Electrik" : 0.5, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 1},
+                   "Sol" :        {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 0.5, "Electrik" : 2, "Vol" : 0, "Sol" : 1, "psy" : 1, "roche" : 1},
+                   "psy" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 1},
+                   "roche" :      {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 2, "Sol" : 0.5, "psy" : 0.5, "roche" : 1},
                   }
             
 
@@ -72,7 +74,7 @@ class Statut(Attaque):
     categorie = "Statut"
  
     def __init__(self, nom, type, precision, pp, effet=None, priorite=0):
-        # Une attaque de statut ne fait pas de dégâts : puissance = 0 d'office
+        # Une attaque de statut ne fait pas de dégâts : puissance = 0 par defaut
         super().__init__(nom, type, 0, precision, pp, effet, priorite)
 
 #exemple sur les attaques de ho-ho :

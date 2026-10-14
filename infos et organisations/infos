@@ -52,10 +52,10 @@ jungko = Pokemon("Jungko", ["Plante"], 70, 85, 65, 105, 85, 120, Engrais())
 
 triopikeur = Pokemon("Triopikeur", ["Sol"], 35, 100, 50, 50, 70, 120, Agitation())
 
-staross = Pokemon("Staross", ["Eau"], 60, 75, 85, 100, 85, 115, Torrent())
+staross = Pokemon("Staross", ["Eau", "psy"], 60, 75, 85, 100, 85, 115, Torrent())
 
 tortank = Pokemon("Tortank", ["Eau"], 79, 83, 100, 85, 105, 78, Torrent())
 
-Grolem = Pokemon("Grolem", ["Sol"], 80, 120, 130, 55, 65, 45, Robustesse())
+Grolem = Pokemon("Grolem", ["roche", "sol"], 80, 120, 130, 55, 65, 45, Robustesse())
 
 Total 15 pokemons : torterra, leviator, roucarnage, wattouat, ecremeuh, Regigigas, Canarticho, raichu, akwakwak, jungko, triopikeur, staross, tortank, Grolem
