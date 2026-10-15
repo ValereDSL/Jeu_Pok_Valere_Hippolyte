@@ -14,32 +14,7 @@ class Effet:
     def appliquer(self, lanceur, cible, degats):
         l = []
         return l
-
-
-class Brulure(Effet):
-    def __init__(self):
-        super().__init__(
-            "Brûlure",
-            "Inflige des dégâts à chaque tour",
-            5
-        )
-
-    def appliquer(self, cible):
-        """À appeler à la fin de CHAQUE tour tant que la cible est brûlée."""
-        messages = []
-
-        # 1) Les dégâts : 1/16 des PV max, au moins 1
-        perte = max(1, cible.pv_max // 16)
-        perte = cible.degats(perte)            # degats() renvoie les PV vraiment perdus
-        messages.append(f"{cible.nom} souffre de sa brûlure ! (-{perte} PV)")
-
-        # 2) Le compte à rebours : un tour de moins
-        self.duree -= 1
-        if self.duree <= 0:
-            cible.statut = None                # la brûlure disparaît
-            messages.append(f"{cible.nom} n'est plus brûlé !")
-
-        return messages
+ 
 
 
 class Soin(Effet):
@@ -118,6 +93,52 @@ class ModifStat(Effet):  # Danse-Lames, Aqua-Brèche
             return []
         return pokemon.modifier_niveau(self.stat, self.delta)
 
+#=============================== Statuts ==============================#
+
+class Statut(Effet):
+    abreviation = "???"
+ 
+    def peut_agir(self, pokemon):
+        """Appelé avant que le Pokémon attaque. Renvoie (True ou False, messages)."""
+        return True, []
+ 
+    def fin_de_tour(self, pokemon):
+        """Appelé à la fin de chaque tour. Le statut s'en va quand la durée tombe à 0."""
+        self.duree -= 1
+        if self.duree <= 0:
+            pokemon.statut = None
+            return [f"{pokemon.nom} n'est plus {self.nom.lower()} !"]
+        return []
+
+class Brulure(Statut):
+    abreviation = "BRU"
+ 
+    def __init__(self):
+        super().__init__("Brûlé", "Perd 1/16 de ses PV max à chaque tour, Attaque divisée par 2", 5)
+ 
+    def fin_de_tour(self, pokemon):
+        if pokemon.est_ko:
+            return []
+        perte = pokemon.degats(max(1, pokemon.pv_max // 16))
+        messages = [f"{pokemon.nom} souffre de sa brûlure ! (-{perte} PV)"]
+        if not pokemon.est_ko:
+            messages += super().fin_de_tour(pokemon)   # on garde le décompte de la classe Statut
+        return messages
+ 
+ 
+class Paralysie(Statut):
+    abreviation = "PAR"
+ 
+    def __init__(self):
+        super().__init__("Paralysé", "25 % de chances de ne pas attaquer, Vitesse divisée par 2", 5)
+ 
+    def peut_agir(self, pokemon):
+        if random.random() < 0.25:
+            return False, [f"{pokemon.nom} est paralysé ! Il ne peut pas attaquer !"]
+        return True, []
+
+    
+
 #_______________________Talents___________________________#
 
 class Talent:
@@ -148,9 +169,8 @@ class Intimidation(Talent):  # Talent de Léviator
             "Baisse l'Attaque de l'adversaire à l'entrée en combat"
         )
 
-    def appliquer(self):
-       pass
-
+    def appliquer(self, possesseur, adversaire):
+        return [f"L'Intimidation de {possesseur.nom} fait effet !"] + adversaire.modifier_niveau("attaque", -1)
 
 class RegardVif(Talent):  # Talent de Roucarnage
     def __init__(self):
@@ -160,7 +180,9 @@ class RegardVif(Talent):  # Talent de Roucarnage
         )
 
     def appliquer(self, possesseur):
-        pass
+        # Aucune attaque du jeu ne baisse la précision pour l'instant :
+        # on renvoie juste True pour dire "je protège la précision".
+        return True
 
 
 class Statik(Talent):  # Talent de Wattouat
@@ -195,7 +217,9 @@ class Attention(Talent):  # Talent de Canarticho
         )
 
     def appliquer(self, possesseur):
-        pass
+        # Aucune attaque du jeu ne baisse la précision pour l'instant :
+        # on renvoie juste True pour dire "je protège la précision".
+        return True
 
 class Torrent(Talent):  # Talent de Staross, Akwakwak et Tortank
     def __init__(self):
