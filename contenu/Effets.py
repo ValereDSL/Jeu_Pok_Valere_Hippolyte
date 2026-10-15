@@ -25,8 +25,21 @@ class Brulure(Effet):
         )
 
     def appliquer(self, cible):
-        # logique de la brûlure
-        pass
+        """À appeler à la fin de CHAQUE tour tant que la cible est brûlée."""
+        messages = []
+
+        # 1) Les dégâts : 1/16 des PV max, au moins 1
+        perte = max(1, cible.pv_max // 16)
+        perte = cible.degats(perte)            # degats() renvoie les PV vraiment perdus
+        messages.append(f"{cible.nom} souffre de sa brûlure ! (-{perte} PV)")
+
+        # 2) Le compte à rebours : un tour de moins
+        self.duree -= 1
+        if self.duree <= 0:
+            cible.statut = None                # la brûlure disparaît
+            messages.append(f"{cible.nom} n'est plus brûlé !")
+
+        return messages
 
 
 class Soin(Effet):
@@ -60,6 +73,50 @@ class Recul(Effet):
         perte = max(1, int(degats * self.fraction))
         perte = lanceur.degats(perte)   # degats() renvoie ce qui a vraiment été perdu
         return [f"{lanceur.nom} subit le contrecoup ! (-{perte} PV)"]
+
+
+
+class Explosion(Effet):  # Explosion de Regigigas
+    def __init__(self):
+        super().__init__("Explosion", "Le lanceur est mis K.O.", 0)
+
+ 
+    def appliquer(self, lanceur, cible, degats):
+        if lanceur.est_ko:
+            return []
+        lanceur.degats(lanceur.pv)
+        return [f"{lanceur.nom} est mis K.O. par sa propre explosion !"]
+ 
+ 
+
+class Peur(Effet):  # Coup d'Boule, Morsure, Écrasement, Cascade
+    def __init__(self, probabilite):
+        super().__init__("Peur", f"{int(probabilite * 100)} % de chances que l'adversaire n'attaque pas ce tour", 0)
+        self.probabilite = probabilite
+
+ 
+    def appliquer(self, lanceur, cible, degats):
+        # Ne marche que si la cible n'a pas encore joué ce tour : c'est le combat qui gérera ça
+        if not cible.est_ko and random.random() < self.probabilite:
+            cible.apeure = True
+        return []   # le message s'affichera quand la cible essaiera d'attaquer
+ 
+ 
+
+class ModifStat(Effet):  # Danse-Lames, Aqua-Brèche
+    def __init__(self, stat, delta, probabilite=1.0, sur_lanceur=False):
+        super().__init__("Modif. stat", f"{stat} {delta:+d}", 0)
+        self.stat = stat                # "attaque", "defense", "attaque_spe", "defense_spe", "vitesse"
+        self.delta = delta              # +2 pour Danse-Lames, -1 pour Aqua-Brèche
+        self.probabilite = probabilite
+        self.sur_lanceur = sur_lanceur  # True : le lanceur se booste lui-même
+
+ 
+    def appliquer(self, lanceur, cible, degats):
+        pokemon = lanceur if self.sur_lanceur else cible
+        if pokemon.est_ko or random.random() >= self.probabilite:
+            return []
+        return pokemon.modifier_niveau(self.stat, self.delta)
 
 #_______________________Talents___________________________#
 
