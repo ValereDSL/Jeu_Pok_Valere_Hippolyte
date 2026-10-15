@@ -26,6 +26,12 @@ class Pokemon:
         self.defense_spe = self._calcul_stat(defense_spe)
         self.vitesse = self._calcul_stat(vitesse)
 
+                # --- Ce qui change pendant le combat --- #
+        self.statut = None      # un objet Brulure() ou Paralysie(), sinon None
+        self.apeure = False     # True si le Pokémon a peur ce tour-ci
+        self.niveaux = {"attaque": 0, "defense": 0, "attaque_spe": 0,
+                        "defense_spe": 0, "vitesse": 0}   # de -6 à +6
+
     # --- Formules officielles (sans les EV) ---
     def _calcul_pv(self, base):
         return ((2 * base + self.iv) * self.lvl) // 100 + self.lvl + 10
