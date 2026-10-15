@@ -1,20 +1,20 @@
-from math import *
-
 import random
 
 
 class Effet:
-    def __init__(self, nom, dercription, duree):
+    def __init__(self, nom, description, duree):
         self.nom = nom
-        self.description = dercription
+        self.description = description
         self.duree = duree
 
     def __str__(self):
         return f"{self.nom} : {self.description} (durée : {self.duree})"
-"""
-    def appliquer(self, cible):
-        pass
-"""
+
+    
+    def appliquer(self, lanceur, cible, degats):
+        l = []
+        return l
+
 
 class Brulure(Effet):
     def __init__(self):
@@ -37,9 +37,29 @@ class Soin(Effet):
             0
         )
 
-    def appliquer(self, cible):
-        # logique du soin
-        pass
+    def appliquer(self, lanceur, cible, degats):
+        soin = lanceur.soigner(lanceur.pv_max * self.pourcentage)
+        if soin == 0:
+            return [f"Les PV de {lanceur.nom} sont déjà au maximum !"]
+        return [f"{lanceur.nom} récupère {soin} PV !"]
+
+
+
+class Recul(Effet):
+    def __init__(self, fraction):
+        super().__init__(
+            "Recul",
+            "Le lanceur subit une partie des dégâts qu'il a infligés",
+            0
+        )
+        self.fraction = fraction
+
+    def appliquer(self, lanceur, cible, degats):
+        if degats == 0:          # l'attaque a raté : pas de contrecoup
+            return []
+        perte = max(1, int(degats * self.fraction))
+        perte = lanceur.degats(perte)   # degats() renvoie ce qui a vraiment été perdu
+        return [f"{lanceur.nom} subit le contrecoup ! (-{perte} PV)"]
 
 #_______________________Talents___________________________#
 

@@ -1,7 +1,7 @@
 """Classe Pokemon."""
 import random
-
-from contenu.Erreur import PVInvalideError, PokemonKOError
+from Erreur import PVInvalideError, PokemonKOError
+from Effets import *
 
 
 class Pokemon:
