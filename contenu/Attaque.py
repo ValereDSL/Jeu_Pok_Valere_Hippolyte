@@ -4,18 +4,18 @@ from Effets import (Recul, Soin, InfligerStatut, Brulure, Paralysie, Apeurer,
                     ModifierNiveau, Sacrifice, DeuxTours, Protection)
 
 
-dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 0.5},
-                   "Feu" :        {"Normal" : 1, "Feu" : 0.5, "Eau" : 0.5, "Plante" : 2, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 0.5},
-                   "Eau" :        {"Normal" : 1, "Feu" : 2, "Eau" : 0.5, "Plante" : 0.5, "Electrik" : 1, "Vol" : 1, "Sol" : 2, "psy" : 1, "roche" : 2},
-                   "Plante" :     {"Normal" : 1, "Feu" : 0.5, "Eau" : 2, "Plante" : 0.5, "Electrik" : 1, "Vol" : 0.5, "Sol" : 2, "psy" : 1, "roche" : 2},
-                   "Electrik" : {"Normal" : 1, "Feu" : 1, "Eau" : 2, "Plante" : 0.5, "Electrik" : 0.5, "Vol" : 2, "Sol" : 0, "psy" : 1, "roche" : 1},
-                   "Vol" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 2, "Electrik" : 0.5, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 0.5},
-                   "Sol" :        {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 0.5, "Electrik" : 2, "Vol" : 0, "Sol" : 1, "psy" : 1, "roche" : 2},
-                   "psy" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "psy" : 1, "roche" : 1},
-                   "roche" :      {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 2, "Sol" : 0.5, "psy" : 0.5, "roche" : 1},
+dict_efficacité = {"Normal" :     {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "Psy" : 1, "Roche" : 0.5},
+                   "Feu" :        {"Normal" : 1, "Feu" : 0.5, "Eau" : 0.5, "Plante" : 2, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "Psy" : 1, "Roche" : 0.5},
+                   "Eau" :        {"Normal" : 1, "Feu" : 2, "Eau" : 0.5, "Plante" : 0.5, "Electrik" : 1, "Vol" : 1, "Sol" : 2, "Psy" : 1, "Roche" : 2},
+                   "Plante" :     {"Normal" : 1, "Feu" : 0.5, "Eau" : 2, "Plante" : 0.5, "Electrik" : 1, "Vol" : 0.5, "Sol" : 2, "Psy" : 1, "Roche" : 2},
+                   "Electrik" : {"Normal" : 1, "Feu" : 1, "Eau" : 2, "Plante" : 0.5, "Electrik" : 0.5, "Vol" : 2, "Sol" : 0, "Psy" : 1, "Roche" : 1},
+                   "Vol" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 2, "Electrik" : 0.5, "Vol" : 1, "Sol" : 1, "Psy" : 1, "Roche" : 0.5},
+                   "Sol" :        {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 0.5, "Electrik" : 2, "Vol" : 0, "Sol" : 1, "Psy" : 1, "Roche" : 2},
+                   "Psy" :        {"Normal" : 1, "Feu" : 1, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 1, "Sol" : 1, "Psy" : 0.5, "Roche" : 1},
+                   "Roche" :      {"Normal" : 1, "Feu" : 2, "Eau" : 1, "Plante" : 1, "Electrik" : 1, "Vol" : 2, "Sol" : 0.5, "Psy" : 1, "Roche" : 1},
                   }
 
-TYPES = {"Normal", "Feu", "Eau", "Plante", "Electrik", "Vol", "Sol", "Roche", "Psy"} # sert pour l'exception type inconnu 
+TYPES = {"Normal", "Feu", "Eau", "Plante", "Electrik", "Vol",("Sol",),("Psy",),("Roche",)} # sert pour l'exception type inconnu 
             
 
 def multiplicateur(type_attaque, type_defenseur):
