@@ -57,7 +57,9 @@ def description_courte(nom):
 
 
 # --- test : python -m contenu.Pokedex --- #
+"""
 if __name__ == "__main__":
     for nom in POKEDEX:
         pokemon = creer_pokemon(nom, 50)
         print(pokemon, "|", ", ".join(a.nom for a in pokemon.attaques))
+"""

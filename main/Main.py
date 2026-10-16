@@ -1,3 +1,6 @@
+from Nouvelle_partie import nouvelle_partie
+
+
 def main():
     print("=" * 60)
     print(" BIENVENUE DANS LE MAGNIFIQUE POKEMON DE HIPPO ET VALERE")
