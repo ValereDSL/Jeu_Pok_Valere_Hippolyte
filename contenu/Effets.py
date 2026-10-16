@@ -1,5 +1,10 @@
 import random
 
+# Règle commune à TOUS les effets :
+#   appliquer(lanceur, cible, degats) renvoie TOUJOURS une liste de messages (même vide).
+#   C'est le combat qui affiche les messages.
+# Les probabilités sont en POURCENTAGE (30 = 30 %), comme dans Attaque.py.
+
 
 class Effet:
     def __init__(self, nom, description, duree):
@@ -10,20 +15,19 @@ class Effet:
     def __str__(self):
         return f"{self.nom} : {self.description} (durée : {self.duree})"
 
-    
     def appliquer(self, lanceur, cible, degats):
         l = []
         return l
- 
 
 
-class Soin(Effet):
-    def __init__(self):
+class Soin(Effet):  # Soin, Repos, Synthèse, Lait à Boire
+    def __init__(self, pourcentage=0.5):
         super().__init__(
             "Soin",
-            "Restaure 50% des PV max",
+            f"Restaure {int(pourcentage * 100)} % des PV max",
             0
         )
+        self.pourcentage = pourcentage
 
     def appliquer(self, lanceur, cible, degats):
         soin = lanceur.soigner(lanceur.pv_max * self.pourcentage)
@@ -32,8 +36,7 @@ class Soin(Effet):
         return [f"{lanceur.nom} récupère {soin} PV !"]
 
 
-
-class Recul(Effet):
+class Recul(Effet):  # Rapace, Éclair Fou
     def __init__(self, fraction):
         super().__init__(
             "Recul",
@@ -43,39 +46,34 @@ class Recul(Effet):
         self.fraction = fraction
 
     def appliquer(self, lanceur, cible, degats):
-        if degats == 0:          # l'attaque a raté : pas de contrecoup
+        if degats == 0 or lanceur.est_ko:   # l'attaque a raté : pas de contrecoup
             return []
         perte = max(1, int(degats * self.fraction))
         perte = lanceur.degats(perte)   # degats() renvoie ce qui a vraiment été perdu
         return [f"{lanceur.nom} subit le contrecoup ! (-{perte} PV)"]
 
 
-
-class Sacrifice(Effet):  # Explosion de Regigigas
+class Sacrifice(Effet):  # Explosion de Regigigas et Grolem
     def __init__(self):
-        super().__init__("Explosion", "Le lanceur est mis K.O.", 0)
+        super().__init__("Sacrifice", "Le lanceur est mis K.O.", 0)
 
- 
     def appliquer(self, lanceur, cible, degats):
         if lanceur.est_ko:
             return []
         lanceur.degats(lanceur.pv)
         return [f"{lanceur.nom} est mis K.O. par sa propre explosion !"]
- 
- 
 
-class Apeurer(Effet):  # Coup d'Boule, Morsure, Écrasement, Cascade
-    def __init__(self, probabilite):
-        super().__init__("Peur", f"{int(probabilite * 100)} % de chances que l'adversaire n'attaque pas ce tour", 0)
-        self.probabilite = probabilite
 
- 
+class Apeurer(Effet):  # Coup d'Boule, Morsure, Écrasement, Cascade, Éboulement
+    def __init__(self, pourcentage):
+        super().__init__("Peur", f"{pourcentage} % de chances que l'adversaire n'attaque pas ce tour", 0)
+        self.pourcentage = pourcentage
+
     def appliquer(self, lanceur, cible, degats):
-        # Ne marche que si la cible n'a pas encore joué ce tour : c'est le combat qui gérera ça
-        if not cible.est_ko and random.random() < self.probabilite:
+        # Ne marche que si la cible n'a pas encore joué ce tour (apeure est remis à False en fin de tour)
+        if not cible.est_ko and random.randint(1, 100) <= self.pourcentage:
             cible.apeure = True
         return []   # le message s'affichera quand la cible essaiera d'attaquer
- 
 
 
 class ModifierNiveau(Effet):  # Danse-Lames, Aqua-Brèche, Psyko, Éco-Sphère, Queue de Fer
@@ -93,16 +91,12 @@ class ModifierNiveau(Effet):  # Danse-Lames, Aqua-Brèche, Psyko, Éco-Sphère, 
         return pokemon.modifier_niveau(self.stat, self.delta)
 
 
-
-
 class DeuxTours(Effet):  # Tunnel, Lance-Soleil : on charge au tour 1, on frappe au tour 2
     def __init__(self, message, invulnerable=False):
         super().__init__("Deux tours", "L'attaque se charge pendant un tour", 0)
         self.message = message            # ex : "{nom} s'enfouit dans le sol !"
         self.invulnerable = invulnerable  # True pour Tunnel : on ne peut pas le toucher pendant la charge
         # Toute la logique est dans Lancer_combat.attaquer(), car elle dépend du tour de jeu
-
-
 
 
 class Protection(Effet):  # Abri
@@ -112,15 +106,18 @@ class Protection(Effet):  # Abri
     def appliquer(self, lanceur, cible, degats):
         lanceur.protege = True       # remis à False à la fin du tour
         return [f"{lanceur.nom} se protège !"]
+
+
 #=============================== Statuts ==============================#
+# Un statut RESTE sur le Pokémon (pokemon.statut) pendant plusieurs tours.
 
 class Statut(Effet):
     abreviation = "???"
- 
+
     def peut_agir(self, pokemon):
         """Appelé avant que le Pokémon attaque. Renvoie (True ou False, messages)."""
         return True, []
- 
+
     def fin_de_tour(self, pokemon):
         """Appelé à la fin de chaque tour. Le statut s'en va quand la durée tombe à 0."""
         self.duree -= 1
@@ -129,12 +126,13 @@ class Statut(Effet):
             return [f"{pokemon.nom} n'est plus {self.nom.lower()} !"]
         return []
 
+
 class Brulure(Statut):
     abreviation = "BRU"
- 
+
     def __init__(self):
         super().__init__("Brûlé", "Perd 1/16 de ses PV max à chaque tour, Attaque divisée par 2", 5)
- 
+
     def fin_de_tour(self, pokemon):
         if pokemon.est_ko:
             return []
@@ -143,8 +141,8 @@ class Brulure(Statut):
         if not pokemon.est_ko:
             messages += super().fin_de_tour(pokemon)   # on garde le décompte de la classe Statut
         return messages
- 
- 
+
+
 class Paralysie(Statut):
     abreviation = "PAR"
 
@@ -175,7 +173,6 @@ class InfligerStatut(Effet):  # Feu Sacré, Tonnerre, Végé-Attaque, Plaquage, 
         # On crée un statut NEUF : chaque Pokémon a son propre compteur de durée
         return cible.infliger_statut(self.classe_statut())
 
-    
 
 #_______________________Talents___________________________#
 
@@ -188,16 +185,19 @@ class Talent:
         return f"{self.nom} : {self.description}"
 
 
-class Engrais(Talent): # Talent de Torterra
+class Engrais(Talent):  # Talent de Torterra et Jungko
     def __init__(self):
         super().__init__(
             "Engrais",
             "Augmente la puissance des attaques de type Plante de 50%, quand le pokemon est à moins d'un tiers de ses PV max"
         )
 
-    def appliquer(self, attaquant, attaque):
+    def appliquer(self, attaquant, attaque, puissance):
+        # On RENVOIE la puissance au lieu de faire attaque.set_puissance() :
+        # sinon le bonus restait collé à l'attaque pour toujours et se cumulait.
         if attaque.type == "Plante" and attaquant.pv <= attaquant.pv_max / 3:
-            attaque.set_puissance(attaque.get_puissance() * 1.5)
+            return puissance * 1.5
+        return puissance
 
 
 class Intimidation(Talent):  # Talent de Léviator
@@ -209,6 +209,7 @@ class Intimidation(Talent):  # Talent de Léviator
 
     def appliquer(self, possesseur, adversaire):
         return [f"L'Intimidation de {possesseur.nom} fait effet !"] + adversaire.modifier_niveau("attaque", -1)
+
 
 class RegardVif(Talent):  # Talent de Roucarnage
     def __init__(self):
@@ -223,7 +224,7 @@ class RegardVif(Talent):  # Talent de Roucarnage
         return True
 
 
-class Statik(Talent):  # Talent de Wattouat
+class Statik(Talent):  # Talent de Wattouat et Raichu
     def __init__(self):
         super().__init__(
             "Statik",
@@ -231,8 +232,10 @@ class Statik(Talent):  # Talent de Wattouat
         )
 
     def appliquer(self, possesseur, attaquant, attaque):
-        if attaque.categorie == "Physique" and random.randint(1, 3) == 1:
-            attaquant.infliger_statut("Paralysé")
+        if attaque.categorie == "Physique" and not attaquant.est_ko and random.randint(1, 100) <= 30:
+            if attaquant.statut is None:
+                return [f"Le Statik de {possesseur.nom} fait effet !"] + attaquant.infliger_statut(Paralysie())
+        return []
 
 
 class EpaisGras(Talent):  # Talent d'Écrémeuh
@@ -247,6 +250,7 @@ class EpaisGras(Talent):  # Talent d'Écrémeuh
             return degats * 0.5
         return degats
 
+
 class Attention(Talent):  # Talent de Canarticho
     def __init__(self):
         super().__init__(
@@ -255,9 +259,8 @@ class Attention(Talent):  # Talent de Canarticho
         )
 
     def appliquer(self, possesseur):
-        # Aucune attaque du jeu ne baisse la précision pour l'instant :
-        # on renvoie juste True pour dire "je protège la précision".
         return True
+
 
 class Torrent(Talent):  # Talent de Staross, Akwakwak et Tortank
     def __init__(self):
@@ -266,9 +269,10 @@ class Torrent(Talent):  # Talent de Staross, Akwakwak et Tortank
             "Augmente la puissance des attaques de type Eau de 50% quand les PV sont en dessous d'un tiers"
         )
 
-    def appliquer(self, attaquant, attaque):
+    def appliquer(self, attaquant, attaque, puissance):
         if attaque.type == "Eau" and attaquant.pv <= attaquant.pv_max / 3:
-            attaque.set_puissance(attaque.get_puissance() * 1.5)
+            return puissance * 1.5
+        return puissance
 
 
 class Agitation(Talent):  # Talent de Triopikeur

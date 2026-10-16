@@ -1,7 +1,6 @@
 """Classe Pokemon."""
 import random
-from Erreur import PVInvalideError, PokemonKOError
-from Effets import *
+from contenu.Erreur import PVInvalideError, PokemonKOError
 
 
 class Pokemon:
@@ -14,7 +13,6 @@ class Pokemon:
         self.types = list(types)
         self.talent = talent
         self.attaques = list(attaques) if attaques else []
-        self.statut = None          # "brulure", "paralysie"... géré par tes effets
         self.iv = random.randint(0, 31)
 
         # Statistiques réelles calculées à partir des stats de base
@@ -26,9 +24,11 @@ class Pokemon:
         self.defense_spe = self._calcul_stat(defense_spe)
         self.vitesse = self._calcul_stat(vitesse)
 
-                # --- Ce qui change pendant le combat --- #
+        # --- Ce qui change pendant le combat --- #
         self.statut = None      # un objet Brulure() ou Paralysie(), sinon None
         self.apeure = False     # True si le Pokémon a peur ce tour-ci
+        self.protege = False    # True s'il a utilisé Abri ce tour-ci
+        self.charge = None      # l'attaque en cours de chargement (Tunnel, Lance-Soleil), sinon None
         self.niveaux = {"attaque": 0, "defense": 0, "attaque_spe": 0,
                         "defense_spe": 0, "vitesse": 0}   # de -6 à +6
 
@@ -38,6 +38,47 @@ class Pokemon:
 
     def _calcul_stat(self, base):
         return ((2 * base + self.iv) * self.lvl) // 100 + 5
+
+    # --- Statut et niveaux de stats --- #
+    def infliger_statut(self, statut):
+        """Donne un statut (un objet Brulure() ou Paralysie()). Un seul à la fois."""
+        if self.statut is not None:
+            return [f"{self.nom} est déjà {self.statut.nom.lower()}."]
+        self.statut = statut
+        return [f"{self.nom} est {statut.nom.lower()} !"]
+
+    def modifier_niveau(self, stat, delta):
+        """Monte (+) ou baisse (-) une stat, sans dépasser -6 ou +6."""
+        noms = {"attaque": "L'Attaque", "defense": "La Défense", "attaque_spe": "L'Attaque Spé.",
+                "defense_spe": "La Défense Spé.", "vitesse": "La Vitesse"}
+        avant = self.niveaux[stat]
+        self.niveaux[stat] = max(-6, min(6, avant + delta))
+        if self.niveaux[stat] == avant:
+            return [f"{noms[stat]} de {self.nom} ne peut pas aller plus loin !"]
+        if delta >= 2:
+            return [f"{noms[stat]} de {self.nom} augmente beaucoup !"]
+        if delta > 0:
+            return [f"{noms[stat]} de {self.nom} augmente !"]
+        return [f"{noms[stat]} de {self.nom} baisse !"]
+
+    def stat(self, nom):
+        """Valeur d'une stat en combat : +1 = x1.5, +2 = x2, -1 = x0.67, -2 = x0.5..."""
+        n = self.niveaux[nom]
+        if n >= 0:
+            valeur = getattr(self, nom) * (2 + n) / 2
+        else:
+            valeur = getattr(self, nom) * 2 / (2 - n)
+        if nom == "vitesse" and self.statut is not None and self.statut.nom == "Paralysé":
+            valeur = valeur / 2
+        return max(1, int(valeur))
+
+    def quitter_terrain(self):
+        """Quand le Pokémon rentre dans sa Poké Ball, ses bonus/malus disparaissent."""
+        self.niveaux = {"attaque": 0, "defense": 0, "attaque_spe": 0,
+                        "defense_spe": 0, "vitesse": 0}
+        self.apeure = False
+        self.protege = False
+        self.charge = None
 
     # --- PV ---
     @property
@@ -70,7 +111,7 @@ class Pokemon:
         if damage_amount < 0:
             raise ValueError("Les dégâts doivent être un nombre positif.")
         reels = min(int(damage_amount), self._pv)  # on ne descend jamais sous 0
-        self.pv = self._pv - reels # OUT OF RANGE !!!
+        self.pv = self._pv - reels
         return reels
 
     def soigner(self, heal_amount):

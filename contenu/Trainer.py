@@ -1,18 +1,17 @@
-from contenu.Erreur import *
-from Pokemon import *
-from Effets import *
-from Attaque import *
+from contenu.Erreur import PokemonKOError, ObjetIndisponibleError
+
 
 class Trainer:
-    """Un Dresseur : nom, liste de Pokémon et objets."""   
-    
-    def __init__(self, nom, equipe, sac=None): # peut-etre est-ce que le joueuer peut renomer son dresseur ? - Hippo
-        if len(equipe) is None or len(equipe)!= 3:
-            raise ValueError("Un dresseur ne peut pas avoir plus de 3 Pokémon.")
+    """Un Dresseur : nom, liste de Pokémon et objets."""
+
+    def __init__(self, nom, equipe, sac=None, est_ordinateur=False): # peut-etre est-ce que le joueuer peut renomer son dresseur ? - Hippo
+        if len(equipe) == 0 or len(equipe) > 6:
+            raise ValueError("Un dresseur doit avoir entre 1 et 6 Pokémon.")
         self.nom = nom
-        self._equipe = equipe
-        self._sac = sac if sac is not None else []
+        self._equipe = list(equipe)
+        self._sac = list(sac) if sac is not None else []
         self._pokemon_actif = 0  #On prend le premier pokemon de l'equipe comme pokemon actif par défaut
+        self.est_ordinateur = est_ordinateur   # True : c'est l'IA qui choisit les actions
 
     def __str__(self):
         return f"Vous avez créé le Dresseur {self.nom} avec {len(self._equipe)} Pokémon(s) et {len(self._sac)} objet(s)."
@@ -22,49 +21,30 @@ class Trainer:
         return tuple(self._equipe) #comme ça on ne peut pas le modifier
 
     @property
+    def sac(self):
+        return tuple(self._sac)
+
+    @property
     def pokemon_actif(self):
         return self._equipe[self._pokemon_actif]
+
+    @property
+    def index_actif(self):
+        return self._pokemon_actif
 
     @property
     def perdu(self):
         return all(pokemon.est_ko for pokemon in self._equipe)
 
-    def attaquer(self, attaque, cible):
-        if self.pokemon_actif.est_ko:
-            raise ValueError(f"{self.pokemon_actif.nom} est K.O. ! Il ne peut pas attaquer.")
-        pp_restants = attaque.utiliser()          
-        if pp_restants is not None and pp_restants < 0:
-            raise ValueError(f"{attaque.nom} n'a plus de PP.")
-        print(f"{self.nom} utilise {attaque.nom} sur {cible.nom} !")
-        if attaque.get_puissance() == 0:
-            print(f"{attaque.nom} n'inflige pas de dégâts.")
-            return 0
-        if random.randint(1, 100) > attaque.precision:
-            print("Mais l'attaque échoue !")
-            return 0
-        multiplicateur = attaque.calculer_efficacite(attaque, cible)
-        message = ""                               
-        if multiplicateur == 0:
-            message = "Ça n'affecte pas la cible..."
-        elif multiplicateur >= 2:
-            message = "C'est super efficace !"
-        elif multiplicateur < 1:
-            message = "Ce n'est pas très efficace..."
-        degats = int(attaque.get_puissance() * multiplicateur)
-        reels = cible.degats(degats)
-        print(f"{message} {cible.nom} perd {reels} PV !")
-        if cible.est_ko:
-            print(f"{cible.nom} est K.O. !")
-        return reels
-    
     def changer_de_pokemon(self, index):
-        if not 0 <= index < len(self._equipe):
+        """Met au combat le Pokémon numéro index (0 = le premier de l'équipe)."""
+        if index < 0 or index >= len(self._equipe):
             raise IndexError("Index de Pokémon invalide.")
-        nouveau = self._equipe[index]
-        if nouveau.est_ko:
-            raise PokemonKOError(f"{nouveau.nom} est K.O. et ne peut pas être choisi comme Pokémon actif.")
+        nouveau_pokemon_actif = self._equipe[index]
+        if nouveau_pokemon_actif.est_ko:
+            raise PokemonKOError(f"{nouveau_pokemon_actif.nom} est K.O. et ne peut pas être choisi comme Pokémon actif.")
+        self.pokemon_actif.quitter_terrain()   # l'ancien perd ses bonus/malus
         self._pokemon_actif = index
-        print(f"{self.nom} envoie {nouveau.nom}.")
 
     def pokemon_encore_en_vie(self):
         return [i for i in self._equipe if not i.est_ko]
@@ -72,13 +52,11 @@ class Trainer:
     def ajouter_objet(self, objet):
         self._sac.append(objet)
 
-    def utiliser_un_objet(self, nom_objet, pokemon=None):
+    def utiliser_un_objet(self, objet, pokemon=None):
+        """Utilise un objet du sac sur un Pokémon (le Pokémon actif par défaut). Renvoie le message."""
         cible = pokemon or self.pokemon_actif
-        for objet in self._sac:
-            if objet.nom == nom_objet:
-                message = objet.utiliser(cible)   # peut lever une erreur : l'objet reste alors dans le sac
-                self._sac.remove(objet)
-                print(f"{self.nom} utilise {objet.nom} sur {cible.nom}.")
-                print(message)
-                return message
-        raise ObjetIndisponibleError(f"{self.nom} n'a pas de {nom_objet} dans son sac.")
+        if objet not in self._sac:
+            raise ObjetIndisponibleError(f"{self.nom} n'a pas de {objet.nom} dans son sac.")
+        message = objet.utiliser(cible)
+        self._sac.remove(objet)
+        return message
