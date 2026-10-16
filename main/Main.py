@@ -1,4 +1,4 @@
-from Nouvelle_partie import nouvelle_partie
+from main.Nouvelle_partie import nouvelle_partie
 
 
 def main():

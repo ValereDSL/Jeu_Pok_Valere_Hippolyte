@@ -3,8 +3,8 @@ import random
 from contenu.Pokedex import POKEMONS_DISPONIBLES, DRESSEURS, creer_pokemon, description_courte
 from contenu.Trainer import Trainer
 from contenu.Objet import Potion, SuperPotion, Rappel, Antidote
-from Lancer_combat import lancer_combat, demander_nombre
-from Fin_partie import fin_partie
+from main.Lancer_combat import lancer_combat, demander_nombre
+from main.Fin_partie import fin_partie
 
 TAILLE_EQUIPE = 5
 NIVEAU_JOUEUR = 50
