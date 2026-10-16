@@ -16,7 +16,7 @@ class Potion(Objet):
         """Soigne le Pokémon cible de 20 PV."""
         if cible.est_ko:
             raise ValueError(f"{cible.nom} est K.O. et ne peut pas être soigné.")
-        rendus = cible.soigner(self.soin)   # soigner() plafonne déjà au PV max
+        rendus = cible.soigner(self.soin)   
         return f"{cible.nom} a récupéré {rendus} PV !"
 
 
