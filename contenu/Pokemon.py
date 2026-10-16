@@ -82,6 +82,23 @@ class Pokemon:
         self.pv = min(self._pv + int(heal_amount), self._pv_max)
         return self._pv - avant
 
+    def modifier_niveau(self, stat, delta):
+        """Modifie un niveau de stat (borné de -6 à +6). Renvoie des messages."""
+        actuel = self.niveaux[stat]
+        nouveau = max(-6, min(6, actuel + delta))
+        if nouveau == actuel:
+            sens = "augmenter" if delta > 0 else "baisser"
+            return [f"{stat} de {self.nom} ne peut plus {sens} !"]
+        self.niveaux[stat] = nouveau
+        verbe = "augmente" if delta > 0 else "baisse"
+        return [f"{stat} de {self.nom} {verbe} !"]
+
+    def infliger_statut(self, statut):
+        """Pose un statut s'il n'y en a pas déjà un. Renvoie des messages."""
+        if self.est_ko or self.statut is not None:
+            return []
+        self.statut = statut
+        return [f"{self.nom} est {statut.nom.lower()} !"]
     # --- Affichage --- #
     def __str__(self):
         types = "/".join(self.types)
