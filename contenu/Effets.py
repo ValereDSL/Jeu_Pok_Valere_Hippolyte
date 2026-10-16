@@ -51,7 +51,7 @@ class Recul(Effet):
 
 
 
-class Explosion(Effet):  # Explosion de Regigigas
+class Sacrifice(Effet):  # Explosion de Regigigas
     def __init__(self):
         super().__init__("Explosion", "Le lanceur est mis K.O.", 0)
 
@@ -64,7 +64,7 @@ class Explosion(Effet):  # Explosion de Regigigas
  
  
 
-class Peur(Effet):  # Coup d'Boule, Morsure, Écrasement, Cascade
+class Apeurer(Effet):  # Coup d'Boule, Morsure, Écrasement, Cascade
     def __init__(self, probabilite):
         super().__init__("Peur", f"{int(probabilite * 100)} % de chances que l'adversaire n'attaque pas ce tour", 0)
         self.probabilite = probabilite
@@ -76,23 +76,42 @@ class Peur(Effet):  # Coup d'Boule, Morsure, Écrasement, Cascade
             cible.apeure = True
         return []   # le message s'affichera quand la cible essaiera d'attaquer
  
- 
 
-class ModifStat(Effet):  # Danse-Lames, Aqua-Brèche
-    def __init__(self, stat, delta, probabilite=1.0, sur_lanceur=False):
+
+class ModifierNiveau(Effet):  # Danse-Lames, Aqua-Brèche, Psyko, Éco-Sphère, Queue de Fer
+    def __init__(self, stat, delta, pourcentage=100, sur_lanceur=False):
         super().__init__("Modif. stat", f"{stat} {delta:+d}", 0)
         self.stat = stat                # "attaque", "defense", "attaque_spe", "defense_spe", "vitesse"
         self.delta = delta              # +2 pour Danse-Lames, -1 pour Aqua-Brèche
-        self.probabilite = probabilite
+        self.pourcentage = pourcentage
         self.sur_lanceur = sur_lanceur  # True : le lanceur se booste lui-même
 
- 
     def appliquer(self, lanceur, cible, degats):
         pokemon = lanceur if self.sur_lanceur else cible
-        if pokemon.est_ko or random.random() >= self.probabilite:
+        if pokemon.est_ko or random.randint(1, 100) > self.pourcentage:
             return []
         return pokemon.modifier_niveau(self.stat, self.delta)
 
+
+
+
+class DeuxTours(Effet):  # Tunnel, Lance-Soleil : on charge au tour 1, on frappe au tour 2
+    def __init__(self, message, invulnerable=False):
+        super().__init__("Deux tours", "L'attaque se charge pendant un tour", 0)
+        self.message = message            # ex : "{nom} s'enfouit dans le sol !"
+        self.invulnerable = invulnerable  # True pour Tunnel : on ne peut pas le toucher pendant la charge
+        # Toute la logique est dans Lancer_combat.attaquer(), car elle dépend du tour de jeu
+
+
+
+
+class Protection(Effet):  # Abri
+    def __init__(self):
+        super().__init__("Protection", "Protège de toutes les attaques adverses pendant ce tour", 0)
+
+    def appliquer(self, lanceur, cible, degats):
+        lanceur.protege = True       # remis à False à la fin du tour
+        return [f"{lanceur.nom} se protège !"]
 #=============================== Statuts ==============================#
 
 class Statut(Effet):
@@ -128,14 +147,33 @@ class Brulure(Statut):
  
 class Paralysie(Statut):
     abreviation = "PAR"
- 
+
     def __init__(self):
         super().__init__("Paralysé", "25 % de chances de ne pas attaquer, Vitesse divisée par 2", 5)
- 
+
     def peut_agir(self, pokemon):
         if random.random() < 0.25:
             return False, [f"{pokemon.nom} est paralysé ! Il ne peut pas attaquer !"]
         return True, []
+
+
+class InfligerStatut(Effet):  # Feu Sacré, Tonnerre, Végé-Attaque, Plaquage, Cage-Éclair...
+    def __init__(self, classe_statut, pourcentage):
+        super().__init__("Statut", f"{pourcentage} % de chances d'infliger un statut", 0)
+        self.classe_statut = classe_statut   # la CLASSE (Brulure ou Paralysie), sans parenthèses
+        self.pourcentage = pourcentage
+
+    def appliquer(self, lanceur, cible, degats):
+        if cible.est_ko:
+            return []
+        if cible.statut is not None:
+            if self.pourcentage == 100:      # Cage-Éclair : on explique pourquoi ça rate
+                return [f"Mais {cible.nom} est déjà {cible.statut.nom.lower()} !"]
+            return []
+        if random.randint(1, 100) > self.pourcentage:
+            return []
+        # On crée un statut NEUF : chaque Pokémon a son propre compteur de durée
+        return cible.infliger_statut(self.classe_statut())
 
     
 
